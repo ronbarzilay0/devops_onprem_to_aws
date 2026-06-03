@@ -11,6 +11,7 @@ variable "environment" {
 variable "aws_region" {
   description = "AWS region — passed into user_data for CloudWatch agent config"
   type        = string
+  default     = "eu-west-1"
 }
 
 variable "vpc_id" {
