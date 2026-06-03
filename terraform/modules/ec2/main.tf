@@ -26,7 +26,7 @@ resource "aws_security_group" "ec2" {
   }
 
   egress {
-    description = "Allow all outbound — needed for Docker pulls, AWS API calls, NAT"
+    description = "Allow all outbound - needed for Docker pulls, AWS API calls, NAT"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
