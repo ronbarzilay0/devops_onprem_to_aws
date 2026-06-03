@@ -128,16 +128,16 @@ resource "aws_db_instance" "main" {
   parameter_group_name = aws_db_parameter_group.main.name
 
   # Backups
-  backup_retention_period   = 7
-  backup_window             = "03:00-04:00" # UTC — low traffic window
-  maintenance_window        = "mon:04:00-mon:05:00"
-  delete_automated_backups  = false
+  backup_retention_period  = 7
+  backup_window            = "03:00-04:00" # UTC — low traffic window
+  maintenance_window       = "mon:04:00-mon:05:00"
+  delete_automated_backups = false
 
   # Monitoring
-  monitoring_interval             = 60 # Enhanced Monitoring every 60s
-  monitoring_role_arn             = aws_iam_role.rds_monitoring.arn
-  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
-  performance_insights_enabled    = true
+  monitoring_interval                   = 60 # Enhanced Monitoring every 60s
+  monitoring_role_arn                   = aws_iam_role.rds_monitoring.arn
+  enabled_cloudwatch_logs_exports       = ["postgresql", "upgrade"]
+  performance_insights_enabled          = true
   performance_insights_retention_period = 7
 
   # Protection
