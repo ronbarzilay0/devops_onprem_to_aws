@@ -65,17 +65,9 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
-
       - name: Terraform Init
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform init -backend=false
-        # -backend=false skips S3 backend init during validate;
-        # the real backend is only needed for plan/apply.
 
       - name: Terraform Validate
         working-directory: ${{ env.TF_WORKING_DIR }}
