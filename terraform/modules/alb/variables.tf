@@ -33,4 +33,5 @@ variable "health_check_path" {
 variable "acm_certificate_arn" {
   description = "ARN of the ACM certificate for HTTPS — must exist before terraform plan"
   type        = string
+  default     = "arn:aws:acm:eu-west-1:123456789012:certificate/placeholder"
 }
