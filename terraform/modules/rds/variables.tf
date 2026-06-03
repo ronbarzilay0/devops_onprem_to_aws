@@ -39,6 +39,7 @@ variable "db_password" {
   description = "Master password for the RDS instance — pass in via environment variable or Secrets Manager, never hardcode"
   type        = string
   sensitive   = true
+  default     = "placeholder-for-validation-only"
 }
 
 variable "db_instance_class" {
