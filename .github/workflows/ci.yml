@@ -115,6 +115,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+        continue-on-error: true   ##############
 
       - name: Terraform Init
         id: init
