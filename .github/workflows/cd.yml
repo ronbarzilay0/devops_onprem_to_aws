@@ -1,1 +1,89 @@
+name: CD — Plan on Merge to Main
 
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write   # Required for OIDC
+  contents: read
+
+env:
+  TF_VERSION: "1.7.5"
+  TF_WORKING_DIR: "./terraform"
+  AWS_REGION: "eu-west-1"
+
+jobs:
+  plan:
+    name: Terraform Plan (main)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: |
+          terraform plan \
+            -var="account_id=${{ secrets.AWS_ACCOUNT_ID }}" \
+            -var="ec2_ami_id=${{ secrets.EC2_AMI_ID }}" \
+            -var="alarm_email=${{ secrets.ALARM_EMAIL }}" \
+            -no-color \
+            -out=tfplan 2>&1 | tee plan_output.txt
+
+      # ── Save plan file as a downloadable artifact ───────────────────────────
+      - name: Upload tfplan artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-main-${{ github.sha }}
+          path: |
+            ${{ env.TF_WORKING_DIR }}/tfplan
+            ${{ env.TF_WORKING_DIR }}/plan_output.txt
+          retention-days: 30
+
+      # ── Write a summary to the GitHub Actions job page ─────────────────────
+      - name: Write Job Summary
+        run: |
+          PLAN=$(cat ${{ env.TF_WORKING_DIR }}/plan_output.txt)
+          TRUNCATED="${PLAN:0:60000}"
+          cat >> $GITHUB_STEP_SUMMARY <<EOF
+          # Terraform Plan — \`main\` branch
+
+          **Commit:** \`${{ github.sha }}\`
+          **Triggered by:** \`${{ github.actor }}\`
+          **Time:** \`$(date -u +"%Y-%m-%dT%H:%M:%SZ")\`
+
+          > ⚠️ **This workflow never runs \`terraform apply\`.**
+          > Download the \`tfplan\` artifact and apply manually after review:
+          > \`terraform apply tfplan\`
+
+          ## Plan Output
+
+          \`\`\`hcl
+          ${TRUNCATED}
+          \`\`\`
+          EOF
+
+      # ── Notify on failure ───────────────────────────────────────────────────
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error::Terraform plan failed on main branch — check the logs above."
+          # In production, wire this to Slack or PagerDuty via a webhook secret
