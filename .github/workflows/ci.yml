@@ -89,7 +89,7 @@ jobs:
           directory: ${{ env.TF_WORKING_DIR }}
           framework: terraform
           output_format: cli
-          soft_fail: soft
+          soft_fail: true
           skip_check: ""
 
   # ── 4. Terraform Plan ────────────────────────────────────────────────────────
