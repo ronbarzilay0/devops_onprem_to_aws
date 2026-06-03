@@ -8,6 +8,12 @@ variable "environment" {
   type        = string
 }
 
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "eu-west-1"
+}
+
 variable "vpc_id" {
   description = "ID of the VPC — from the vpc module output"
   type        = string
