@@ -4,8 +4,9 @@ terraform {
       source = "hashicorp/aws"
     }
   }
-}
 
+  required_version = ">= 1.5.0"
+}
 # ─────────────────────────────────────────
 # Security Group for RDS
 # Only accepts traffic from EC2 instances — never from public internet
