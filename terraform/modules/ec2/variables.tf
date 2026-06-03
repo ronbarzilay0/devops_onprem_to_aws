@@ -1,0 +1,74 @@
+variable "project_name" {
+  description = "Project name used as a prefix for all resource names"
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment environment (e.g. prod, staging, dev)"
+  type        = string
+}
+
+variable "aws_region" {
+  description = "AWS region — passed into user_data for CloudWatch agent config"
+  type        = string
+}
+
+variable "vpc_id" {
+  description = "ID of the VPC — from the vpc module output"
+  type        = string
+}
+
+variable "private_subnet_ids" {
+  description = "IDs of the private subnets to launch EC2 instances in — from the vpc module output"
+  type        = list(string)
+}
+
+variable "ami_id" {
+  description = "AMI ID for EC2 instances"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t3.medium"
+}
+
+variable "app_port" {
+  description = "Port the microservice containers listen on — must match the ALB target group"
+  type        = number
+  default     = 8080
+}
+
+variable "ec2_instance_profile" {
+  description = "Name of the IAM instance profile to attach — from the iam module output"
+  type        = string
+}
+
+variable "alb_security_group_id" {
+  description = "ID of the ALB security group — EC2 only accepts inbound traffic from this SG"
+  type        = string
+}
+
+variable "target_group_arn" {
+  description = "ARN of the ALB target group — ASG registers instances here"
+  type        = string
+}
+
+variable "asg_min_size" {
+  description = "Minimum number of instances in the ASG"
+  type        = number
+  default     = 2
+}
+
+variable "asg_max_size" {
+  description = "Maximum number of instances in the ASG"
+  type        = number
+  default     = 10
+}
+
+variable "asg_desired_capacity" {
+  description = "Desired number of instances at launch"
+  type        = number
+  default     = 2
+}
