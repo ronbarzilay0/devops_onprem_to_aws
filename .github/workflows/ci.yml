@@ -119,7 +119,7 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform init -backend=false
+        run: terraform init -backend=false -reconfigure
 
       - name: Terraform Plan
         id: plan
