@@ -106,3 +106,24 @@ variable "db_allocated_storage" {
   type        = number
   default     = 100
 }
+
+
+
+
+variable "account_id" {
+  description = "AWS account ID"
+  type        = string
+  default     = "123456789012"
+}
+
+variable "ec2_ami_id" {
+  description = "AMI ID for EC2 instances"
+  type        = string
+  default     = "ami-00000000000000000"
+}
+
+variable "alarm_email" {
+  description = "Email address for CloudWatch alarm notifications"
+  type        = string
+  default     = "placeholder@example.com"
+}
