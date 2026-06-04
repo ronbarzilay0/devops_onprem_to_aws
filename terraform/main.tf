@@ -8,13 +8,13 @@ terraform {
     }
   }
 
-  #backend "s3" {
-  #  bucket         = "my-aws-migration-tfstate"
-  #  key            = "prod/terraform.tfstate"
-  #  region         = "eu-west-1"
-  #  dynamodb_table = "my-aws-migration-tfstate-lock"
-  #  encrypt        = true
-  #}
+  backend "s3" {
+    bucket         = "my-aws-migration-tfstate"
+    key            = "prod/terraform.tfstate"
+    region         = "eu-west-1"
+    dynamodb_table = "my-aws-migration-tfstate-lock"
+    encrypt        = true
+  }
 }
 
 provider "aws" {
