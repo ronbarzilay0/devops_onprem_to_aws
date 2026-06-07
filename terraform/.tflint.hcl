@@ -1,3 +1,5 @@
+# TFLint configuration — enforces Terraform best practices across all modules
+
 plugin "terraform" {
   enabled = true
   preset  = "recommended"
