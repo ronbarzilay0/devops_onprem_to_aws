@@ -88,6 +88,7 @@ jobs:
         with:
           directory: ${{ env.TF_WORKING_DIR }}
           framework: terraform
+          # scan only for hardcoded secrets, open security groups, unencrypted resources
           check: >
             CKV_SECRET_2,
             CKV_SECRET_6,
