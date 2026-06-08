@@ -18,6 +18,7 @@ resource "aws_security_group" "alb" {
   description = "Security group for the Application Load Balancer"
   vpc_id      = var.vpc_id
 
+  # allow traffic into the security group only through http and http
   ingress {
     description = "Allow HTTP from internet"
     from_port   = 80
@@ -34,6 +35,7 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # allow to send traffic outward to anywhere from any port 
   egress {
     description = "Allow all outbound to reach EC2 instances"
     from_port   = 0
@@ -58,8 +60,9 @@ resource "aws_lb" "main" {
   security_groups    = [aws_security_group.alb.id]
   subnets            = var.public_subnet_ids
 
-  enable_deletion_protection = true
+  enable_deletion_protection = true # prevents the alb from accidentally being deleted.
 
+  # saves a log of every single request that passes through it into a s3 bucket.  
   access_logs {
     bucket  = "${var.project_name}-${var.environment}-alb-logs"
     prefix  = "alb"
