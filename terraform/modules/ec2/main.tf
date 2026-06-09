@@ -8,35 +8,6 @@ terraform {
 
   required_version = ">= 1.5.0"
 }
-# ─────────────────────────────────────────
-# Security Group for EC2 Instances
-# Only accepts traffic from the ALB — never from the public internet
-# ─────────────────────────────────────────
-resource "aws_security_group" "ec2" {
-  name        = "${var.project_name}-${var.environment}-ec2-sg"
-  description = "Security group for EC2 instances — inbound from ALB only"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    description     = "Allow app traffic from ALB only"
-    from_port       = var.app_port
-    to_port         = var.app_port
-    protocol        = "tcp"
-    security_groups = [var.alb_security_group_id]
-  }
-
-  egress {
-    description = "Allow all outbound - needed for Docker pulls, AWS API calls, NAT"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "${var.project_name}-${var.environment}-ec2-sg"
-  }
-}
 
 # ─────────────────────────────────────────
 # CloudWatch Log Group
