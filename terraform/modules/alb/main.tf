@@ -18,7 +18,7 @@ resource "aws_lb" "main" {
   name               = "${var.project_name}-${var.environment}-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [alb_security_group_id] #aws_security_group.alb.id
+  security_groups    = [var.alb_security_group_id] #aws_security_group.alb.id
   subnets            = var.public_subnet_ids
 
   enable_deletion_protection = true # prevents the alb from accidentally being deleted.
