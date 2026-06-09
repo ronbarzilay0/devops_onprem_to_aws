@@ -95,7 +95,7 @@ resource "aws_launch_template" "main" {
   }
 
   user_data = base64encode(templatefile("${path.module}/user_data.sh", {
-    log_group_name = aws_cloudwatch_log_group.app.name
+    log_group_name = "/aws/ec2/${var.project_name}-${var.environment}"
     aws_region     = var.aws_region
     project_name   = var.project_name
     environment    = var.environment
