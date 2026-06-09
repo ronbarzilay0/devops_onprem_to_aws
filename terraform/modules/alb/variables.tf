@@ -18,6 +18,11 @@ variable "public_subnet_ids" {
   type        = list(string)
 }
 
+variable "alb_security_group_id" {
+  description = "The ID of the the ALB security group"
+  type        = string
+}
+
 variable "app_port" {
   description = "Port the microservice containers listen on inside EC2"
   type        = number
