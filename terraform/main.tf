@@ -100,9 +100,7 @@ module "rds" {
 
   project_name          = var.project_name
   environment           = var.environment
-  vpc_id                = module.vpc.vpc_id
   private_subnet_ids    = module.vpc.private_subnet_ids
-  ec2_security_group_id = module.iam.ec2_security_group_id
   db_name               = var.db_name
   db_username           = var.db_username
   db_instance_class     = var.db_instance_class
