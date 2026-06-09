@@ -52,7 +52,7 @@ resource "aws_launch_template" "main" {
 
   network_interfaces {
     associate_public_ip_address = false
-    security_groups             = [aws_security_group.ec2.id]
+    security_groups             = [var.ec2_security_group_id]
   }
 
   monitoring {
