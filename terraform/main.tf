@@ -80,12 +80,12 @@ module "ec2" {
 
   project_name          = var.project_name
   environment           = var.environment
-  vpc_id                = module.vpc.vpc_id
+  #vpc_id                = module.vpc.vpc_id
   private_subnet_ids    = module.vpc.private_subnet_ids
   instance_type         = var.instance_type
   ami_id                = var.ami_id
   ec2_instance_profile  = module.iam.ec2_instance_profile_name
-  alb_security_group_id = module.iam.alb_security_group_id
+  #alb_security_group_id = module.iam.alb_security_group_id
   target_group_arn      = module.alb.target_group_arn
   asg_min_size          = var.asg_min_size
   asg_max_size          = var.asg_max_size
