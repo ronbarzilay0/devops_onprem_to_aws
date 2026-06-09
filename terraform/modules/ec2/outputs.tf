@@ -15,5 +15,5 @@ output "launch_template_id" {
 
 output "cloudwatch_log_group_name" {
   description = "Name of the CloudWatch log group for application logs"
-  value = "/aws/ec2/${var.project_name}-${var.environment}"
+  value       = "/aws/ec2/${var.project_name}-${var.environment}"
 }
