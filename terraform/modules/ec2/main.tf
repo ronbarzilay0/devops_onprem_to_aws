@@ -40,14 +40,29 @@ resource "aws_security_group" "ec2" {
 
 # ─────────────────────────────────────────
 # CloudWatch Log Group
-# One log group per environment for all microservices
+# One log group per microservice
 # ─────────────────────────────────────────
-resource "aws_cloudwatch_log_group" "app" {
-  name              = "/aws/ec2/${var.project_name}-${var.environment}"
+locals {
+  microservices = [
+    "service-users",
+    "service-orders",
+    "service-inventory",
+    "service-payments",
+    "service-notifications",
+    "service-auth",
+    "service-gateway",
+    "service-reports"
+  ]
+}
+
+resource "aws_cloudwatch_log_group" "microservices" {
+  for_each          = toset(local.microservices)
+  name              = "/aws/ec2/${var.project_name}-${var.environment}/${each.key}"
   retention_in_days = 30
 
   tags = {
-    Name = "${var.project_name}-${var.environment}-log-group"
+    Name        = "${var.project_name}-${var.environment}-${each.key}-log-group"
+    Environment = var.environment
   }
 }
 
