@@ -97,19 +97,11 @@ DB_PASS=$(echo $DB_SECRET | python3 -c "import sys,json; print(json.load(sys.std
 # Each service gets its own port and its own CloudWatch log group
 # Log groups are pre-created by Terraform in ec2/main.tf
 # ─────────────────────────────────────────
-declare -A SERVICES=(
-  ["service-1"]="8001"
-  ["service-2"]="8002"
-  ["service-3"]="8003"
-  ["service-4"]="8004"
-  ["service-5"]="8005"
-  ["service-6"]="8006"
-  ["service-7"]="8007"
-  ["service-8"]="8008"
-)
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 
-for SERVICE_NAME in "${!SERVICES[@]}"; do
-  PORT="${SERVICES[$SERVICE_NAME]}"
+run_service() {
+  SERVICE_NAME=$1
+  PORT=$2
   docker run -d \
     --name "$SERVICE_NAME" \
     --restart unless-stopped \
@@ -121,6 +113,15 @@ for SERVICE_NAME in "${!SERVICES[@]}"; do
     --log-driver awslogs \
     --log-opt awslogs-region="${aws_region}" \
     --log-opt awslogs-group="/aws/ec2/${project_name}-${environment}/$SERVICE_NAME" \
-    --log-opt awslogs-stream="$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" \
+    --log-opt awslogs-stream="$INSTANCE_ID" \
     "${project_name}/$SERVICE_NAME:latest"
-done
+}
+
+run_service service-1          8001
+run_service service-2          8002
+run_service service-3          8003
+run_service service-4          8004
+run_service service-5          8005
+run_service service-6          8006
+run_service service-7          8007
+run_service service-8          8008
