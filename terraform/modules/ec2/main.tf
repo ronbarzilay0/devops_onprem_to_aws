@@ -44,14 +44,14 @@ resource "aws_security_group" "ec2" {
 # ─────────────────────────────────────────
 locals {
   microservices = [
-    "service-users",
-    "service-orders",
-    "service-inventory",
-    "service-payments",
-    "service-notifications",
-    "service-auth",
-    "service-gateway",
-    "service-reports"
+    "service-1",
+    "service-2",
+    "service-3",
+    "service-4",
+    "service-5",
+    "service-6",
+    "service-7",
+    "service-8"
   ]
 }
 
