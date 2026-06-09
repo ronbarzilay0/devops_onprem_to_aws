@@ -8,6 +8,11 @@ variable "environment" {
   type        = string
 }
 
+variable "rds_security_group_id" {
+  description = "The ID of the RDS security group"
+  type        = string
+}
+
 variable "private_subnet_ids" {
   description = "IDs of the private subnets to place the DB subnet group in — from the vpc module output"
   type        = list(string)
