@@ -14,11 +14,6 @@ variable "aws_region" {
   default     = "eu-west-1"
 }
 
-variable "vpc_id" {
-  description = "ID of the VPC — from the vpc module output"
-  type        = string
-}
-
 variable "private_subnet_ids" {
   description = "IDs of the private subnets to launch EC2 instances in — from the vpc module output"
   type        = list(string)
@@ -35,19 +30,8 @@ variable "instance_type" {
   default     = "t3.medium"
 }
 
-variable "app_port" {
-  description = "Port the microservice containers listen on — must match the ALB target group"
-  type        = number
-  default     = 8080
-}
-
 variable "ec2_instance_profile" {
   description = "Name of the IAM instance profile to attach — from the iam module output"
-  type        = string
-}
-
-variable "alb_security_group_id" {
-  description = "ID of the ALB security group — EC2 only accepts inbound traffic from this SG"
   type        = string
 }
 
