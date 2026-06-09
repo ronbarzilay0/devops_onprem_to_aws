@@ -18,7 +18,4 @@ output "target_group_arn" {
   value       = aws_lb_target_group.main.arn
 }
 
-output "alb_security_group_id" {
-  description = "ID of the ALB security group — passed to ec2 module to allow inbound only from ALB"
-  value       = aws_security_group.alb.id
-}
+
