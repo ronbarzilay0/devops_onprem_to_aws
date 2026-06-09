@@ -98,14 +98,14 @@ DB_PASS=$(echo $DB_SECRET | python3 -c "import sys,json; print(json.load(sys.std
 # Log groups are pre-created by Terraform in ec2/main.tf
 # ─────────────────────────────────────────
 declare -A SERVICES=(
-  ["service-users"]="8001"
-  ["service-orders"]="8002"
-  ["service-inventory"]="8003"
-  ["service-payments"]="8004"
-  ["service-notifications"]="8005"
-  ["service-auth"]="8006"
-  ["service-gateway"]="8007"
-  ["service-reports"]="8008"
+  ["service-1"]="8001"
+  ["service-2"]="8002"
+  ["service-3"]="8003"
+  ["service-4"]="8004"
+  ["service-5"]="8005"
+  ["service-6"]="8006"
+  ["service-7"]="8007"
+  ["service-8"]="8008"
 )
 
 for SERVICE_NAME in "${!SERVICES[@]}"; do
