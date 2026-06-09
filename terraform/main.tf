@@ -52,8 +52,8 @@ module "vpc" {
 # IAM
 # ─────────────────────────────────────────
 module "iam" {
-  source       = "./modules/iam"
-  
+  source = "./modules/iam"
+
   project_name = var.project_name
   environment  = var.environment
   vpc_id       = module.vpc.vpc_id
@@ -63,12 +63,12 @@ module "iam" {
 # ALB
 # ─────────────────────────────────────────
 module "alb" {
-  source            = "./modules/alb"
-  
-  project_name      = var.project_name
-  environment       = var.environment
-  vpc_id            = module.vpc.vpc_id
-  public_subnet_ids = module.vpc.public_subnet_ids
+  source = "./modules/alb"
+
+  project_name          = var.project_name
+  environment           = var.environment
+  vpc_id                = module.vpc.vpc_id
+  public_subnet_ids     = module.vpc.public_subnet_ids
   alb_security_group_id = module.iam.alb_security_group_id
 }
 
