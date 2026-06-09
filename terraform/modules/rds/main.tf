@@ -8,35 +8,6 @@ terraform {
 
   required_version = ">= 1.5.0"
 }
-# ─────────────────────────────────────────
-# Security Group for RDS
-# Only accepts traffic from EC2 instances — never from public internet
-# ─────────────────────────────────────────
-resource "aws_security_group" "rds" {
-  name        = "${var.project_name}-${var.environment}-rds-sg"
-  description = "Security group for RDS — inbound from EC2 only"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    description     = "Allow PostgreSQL from EC2 instances only"
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [var.ec2_security_group_id]
-  }
-
-  egress {
-    description = "Allow all outbound"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "${var.project_name}-${var.environment}-rds-sg"
-  }
-}
 
 # ─────────────────────────────────────────
 # DB Subnet Group
