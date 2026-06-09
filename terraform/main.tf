@@ -98,11 +98,11 @@ module "ec2" {
 module "rds" {
   source = "./modules/rds"
 
-  project_name          = var.project_name
-  environment           = var.environment
-  private_subnet_ids    = module.vpc.private_subnet_ids
-  db_name               = var.db_name
-  db_username           = var.db_username
-  db_instance_class     = var.db_instance_class
-  db_allocated_storage  = var.db_allocated_storage
+  project_name         = var.project_name
+  environment          = var.environment
+  private_subnet_ids   = module.vpc.private_subnet_ids
+  db_name              = var.db_name
+  db_username          = var.db_username
+  db_instance_class    = var.db_instance_class
+  db_allocated_storage = var.db_allocated_storage
 }
