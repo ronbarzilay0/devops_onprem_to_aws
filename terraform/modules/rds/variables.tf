@@ -8,19 +8,9 @@ variable "environment" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "ID of the VPC — from the vpc module output"
-  type        = string
-}
-
 variable "private_subnet_ids" {
   description = "IDs of the private subnets to place the DB subnet group in — from the vpc module output"
   type        = list(string)
-}
-
-variable "ec2_security_group_id" {
-  description = "ID of the EC2 security group — RDS only accepts inbound from this SG"
-  type        = string
 }
 
 variable "db_name" {
