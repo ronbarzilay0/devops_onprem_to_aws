@@ -78,8 +78,8 @@ module "alb" {
 module "ec2" {
   source = "./modules/ec2"
 
-  project_name = var.project_name
-  environment  = var.environment
+  project_name          = var.project_name
+  environment           = var.environment
   private_subnet_ids    = module.vpc.private_subnet_ids
   instance_type         = var.instance_type
   ami_id                = var.ami_id
@@ -105,4 +105,4 @@ module "rds" {
   db_username           = var.db_username
   db_instance_class     = var.db_instance_class
   db_allocated_storage  = var.db_allocated_storage
-} 
+}
