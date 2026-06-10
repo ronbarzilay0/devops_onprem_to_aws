@@ -46,7 +46,7 @@ my-aws-migration/
 
 ## Prerequisites
 
-- [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.5.0
+- [Terraform](https://developer.hashicorp.com/terraform/install) ~> 1.7.5
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) configured with credentials
 - [TFLint](https://github.com/terraform-linters/tflint) v0.50.3+
 - Git
