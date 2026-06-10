@@ -100,3 +100,53 @@ resource "aws_lb_listener" "https" {
     target_group_arn = aws_lb_target_group.main.arn
   }
 }
+
+# ─────────────────────────────────────────
+# CloudWatch Alarm — ALB 5xx Error Rate > 1%
+# Fires when server-side errors exceed 1% of total requests
+# ─────────────────────────────────────────
+resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
+  alarm_name          = "${var.project_name}-${var.environment}-alb-5xx-high"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2
+  threshold           = 1
+  alarm_description   = "ALB 5xx error rate exceeded 1% of total requests"
+  treat_missing_data  = "notBreaching"
+
+  metric_query {
+    id          = "error_rate"
+    expression  = "errors / requests * 100"
+    label       = "5xx Error Rate (%)"
+    return_data = true
+  }
+
+  metric_query {
+    id = "errors"
+    metric {
+      metric_name = "HTTPCode_ELB_5XX_Count"
+      namespace   = "AWS/ApplicationELB"
+      period      = 60
+      stat        = "Sum"
+      dimensions = {
+        LoadBalancer = aws_lb.main.arn_suffix
+      }
+    }
+  }
+
+  metric_query {
+    id = "requests"
+    metric {
+      metric_name = "RequestCount"
+      namespace   = "AWS/ApplicationELB"
+      period      = 60
+      stat        = "Sum"
+      dimensions = {
+        LoadBalancer = aws_lb.main.arn_suffix
+      }
+    }
+  }
+
+  tags = {
+    Name = "${var.project_name}-${var.environment}-alb-5xx-alarm"
+  }
+}
